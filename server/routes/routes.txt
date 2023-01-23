@@ -1,0 +1,13 @@
+============ AUTH =================
+ - LOGIN => POST /api/auth/login (email, password)
+ - FORGET PASSWORD => POST /api/auth/forget (email)
+ - RESET PASSWORD => POST /api/auth/reset/:token (password)
+ - VERIFY AUTH => GET /api/auth/verify (token from cookies)
+ 
+============ Pharmacy =============
+ - POST /api/pharmacy => add new pharmacy
+ - GET /api/pharmacy => get all pharmacies
+ - PUT /api/pharmacy/:id => update a pharmacy based on it's ID
+ - DELETE /api/pharmacy/:id => delete pharmacy based on it's ID
+ - GET /api/pharmacy/:id => get pharmacy by it's id
+ - POST /api/pharmacy/gard/:id => change the gard field to true
