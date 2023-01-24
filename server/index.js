@@ -4,6 +4,7 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const morgan = require('morgan');
 const initDB = require('./config/initDB');
+const projectRoutes = require('./routes');
 
 // initialize the database
 (async () => {
@@ -14,6 +15,9 @@ const app = express();
 app.use(express());
 app.use(cors());
 app.use(cookieParser());
+
+// routes
+app.use(projectRoutes);
 
 const port = 5000 || process.env.PORT;
 app.listen(port, () => {

@@ -10,5 +10,5 @@
  - PUT /api/pharmacy/:id => update a pharmacy based on it's ID
  - DELETE /api/pharmacy/:id => delete pharmacy based on it's ID
  - GET /api/pharmacy/:id => get pharmacy by it's id
- - POST /api/pharmacy/gard/:id => change the gard field to true
+ - PUT /api/pharmacy/gard/:id => change the gard field to true
  - GET /api/pharmacy/gard => get all pharmacies with gard field true
