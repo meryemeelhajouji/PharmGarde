@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    restart: always
+    ports:
+      - 27018:27017
+    volumes:
+      - mongodb_data:/data/db
+
+  backend:
+    build: ./server
+    container_name: backend
+    restart: always
+    ports:
+      - 5000:5000
+    depends_on:
+      - mongodb
+    volumes:
+      - ./server:/server
+    env_file:
+      - ./server/.env
+
+volumes:
+  mongodb_data:
+    driver: local
