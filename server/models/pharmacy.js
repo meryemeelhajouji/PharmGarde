@@ -18,6 +18,10 @@ const pharmacySchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
+  statuts: {
+    type: Boolean,
+    default: false,
+  },
   location: {
     type: {
       type: String,
