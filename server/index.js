@@ -3,6 +3,12 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const morgan = require('morgan');
+const initDB = require('./config/initDB');
+
+// initialize the database
+(async () => {
+  await initDB();
+})();
 
 const app = express();
 app.use(express());
