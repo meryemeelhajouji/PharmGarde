@@ -15,6 +15,6 @@ router.put('/:id', updatePharmacy);
 router.delete('/:id', removePharmacy);
 router.get('/:id', getPharmacyById);
 router.put('/gard/:id', changePharmacyState);
-router.get('/gard', getGardingPharmacies);
+router.get('/gard/active', getGardingPharmacies);
 
 module.exports = router;

@@ -74,9 +74,9 @@ const getPharmacyById = async (req, res, next) => {
 const changePharmacyState = async (req, res, next) => {
   // TODO: changePharmacyState controller
   let idPharmacy = req.params.id;
-  const statuts = true;
+
   try {
-    if (await Pharmacy.updateOne({ _id: idPharmacy }, { status })) res.status(200).send('updated successfully');
+    if (await Pharmacy.updateOne({ _id: idPharmacy }, { statuts:true})) res.status(200).send('updated successfully');
     else res.status(400).send('Pharmacy dont  existe');
   } catch (error) {
     next(error);
@@ -92,12 +92,12 @@ const changePharmacyState = async (req, res, next) => {
 const getGardingPharmacies = async (req, res, next) => {
   // TODO: getGardingPharmacies controller
   try {
-    const Pharmacy = await Pharmacy.find({
-      status: 'exist',
+    const Pharmacie = await Pharmacy.find({
+      statuts: true,
     });
     res.status(200).json({
       success: true,
-      Pharmacy: Pharmacy,
+      Pharmacie: Pharmacie,
     });
   } catch (error) {
     res.status(400).send(error);
