@@ -1,23 +1,23 @@
 import React from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import {
-  HiMenuAlt2,
-  HiMenuAlt3,
-  MdOutlineDashboard,
-  RiShoppingBasket2Line,
-  BiMessageSquare,
-  FiUsers,
-  AiOutlineTag,
-  IoPricetagsOutline,
-  MdOutlineAnalytics,
-  AiOutlineFileText,
-  AiOutlineSetting,
-  IoMdLogOut,
-  BsBuilding,
-  AiOutlineHome,
-  MdPayment,
-} from "../../../assets/icons";
+// import {
+//   HiMenuAlt2,
+//   HiMenuAlt3,
+//   MdOutlineDashboard,
+//   // RiShoppingBasket2Line,
+//   // BiMessageSquare,
+//   FiUsers,
+//   // AiOutlineTag,
+//   // IoPricetagsOutline,
+//   // MdOutlineAnalytics,
+//   // AiOutlineFileText,
+//   AiOutlineSetting,
+//   IoMdLogOut,
+//   // BsBuilding,
+//   // AiOutlineHome,
+//   MdPayment,
+// } from "../../../assets/icons";
 
 function Sidebar() {
 
@@ -25,10 +25,9 @@ function Sidebar() {
     {
       name: "Dashboard",
       Link: "/dashboard",
-      icon: MdOutlineDashboard,
       margin: true,
     },
-    { name: "pharmacies", Link: "/dashboard/pharmacies", icon: FiUsers, margin: true },
+    { name: "pharmacies", Link: "/dashboard/pharmacies", margin: true },
  
     // {
     //   name: "User",
@@ -38,16 +37,14 @@ function Sidebar() {
     {
       name: "Commentaires",
       Link: "/dashboard/Commentaires",
-      icon: MdPayment,
       margin: true,
     },
     {
       name: "Réglages",
       Link: "/dashboard/reglage",
-      icon: AiOutlineSetting,
       margin: true,
     },
-    { name: "Se déconnecter", Link: "/", icon: IoMdLogOut },
+    { name: "Se déconnecter", Link: "/",  },
   ];
   const [open, setOpen] = useState(true);
   return (
@@ -58,17 +55,8 @@ function Sidebar() {
         <div className="flex justify-start swap swap-rotate">
           <label className="swap swap-rotate">
             <input type="checkbox" onClick={() => setOpen(!open)} />
-            <HiMenuAlt3
-              size={24}
-              className="cursor-pointer swap-off fill-current"
-            />
-            <HiMenuAlt2
-              size={24}
-              className="cursor-pointer swap-on fill-current"
-            />
           </label>
           <p className="btn btn-ghost normal-case text-xl">PharmGarde</p>
-          <image ></image>
         </div>
         <hr className="p-0" />
         {menus?.map((menu, i) => (
@@ -79,7 +67,6 @@ function Sidebar() {
               menu?.margin && "mt-5"
             } group flex items-center text-sm gap-3 font-medium p-2 hover:bg-color-purple rounded-md`}
           >
-            <div>{React.createElement(menu?.icon, { size: "24" })}</div>
             <h2
               className={`whitespace-pre duration-500 ${
                 !open && "opacity-0 translate-x-28 overflow-hideen"
