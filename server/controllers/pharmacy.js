@@ -1,5 +1,4 @@
-const pharmacy = require('../models/pharmacy');
-
+const Pharmacy = require('../Models/pharmacy')
 /**
  * @route   POST api/pharmacy
  * @desc    create new pharmacy
@@ -8,7 +7,22 @@ const pharmacy = require('../models/pharmacy');
  */
 const addPharmacy = async (req, res, next) => {
   // TODO: addPharmacy controller
+  const { name, address, phone, email, location, coordinates } = req.body;
 
+  const Pharmacie = await Pharmacy.create({
+      name, 
+      address, 
+      phone,
+     email, 
+     location, 
+     coordinates 
+  });
+  console.log(req.body);
+
+  res.status(200).json({
+    success: true,
+    Pharmacie,
+  });
 };
 
 /**
@@ -84,6 +98,14 @@ const getPharmacyById = async (req, res, next) => {
  */
 const changePharmacyState = async (req, res, next) => {
   // TODO: changePharmacyState controller
+  let idPharmacy = req.params.id;
+  const statuts = true;
+  try {
+    if (await Pharmacy.updateOne({ _id: idPharmacy }, { status })) res.status(200).send('updated successfully');
+    else res.status(400).send('Pharmacy dont  existe');
+  } catch (error) {
+    next(error);
+  }
 };
 
 /**
@@ -94,6 +116,17 @@ const changePharmacyState = async (req, res, next) => {
  */
 const getGardingPharmacies = async (req, res, next) => {
   // TODO: getGardingPharmacies controller
+  try {
+    const Pharmacy = await Pharmacy.find({
+      status: 'exist',
+    });
+    res.status(200).json({
+      success: true,
+      Pharmacy: Pharmacy,
+    });
+  } catch (error) {
+    res.status(400).send(error);
+  }
 };
 
 module.exports = {
