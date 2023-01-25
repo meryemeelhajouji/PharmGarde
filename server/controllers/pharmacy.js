@@ -1,4 +1,4 @@
-const Pharmacy = require('../Models/pharmacy')
+const Pharmacy = require('../models/pharmacy')
 /**
  * @route   POST api/pharmacy
  * @desc    create new pharmacy
@@ -34,7 +34,7 @@ const addPharmacy = async (req, res, next) => {
 const getAllPharmacies = async (req, res, next) => {
   // TODO: getAllPharmacies controller
   try {
-    const data = await pharmacy.find({});
+    const data = await Pharmacy.find({});
 
     console.log(data);
 
@@ -64,7 +64,7 @@ const updatePharmacy = async (req, res, next) => {
 const removePharmacy = async (req, res, next) => {
   // TODO: removePharmacy controller
   const id = req.params.id;
-  await pharmacy.findByIdAndDelete({ _id: id });
+  await Pharmacy.findByIdAndDelete({ _id: id });
 
   res.status(200).json({
     success: true,
@@ -82,7 +82,7 @@ const getPharmacyById = async (req, res, next) => {
   // TODO: getPharmacyById controller
   const id = req.params.id;
   try {
-    const data = await pharmacy.findOne({ _id: id });
+    const data = await Pharmacy.findOne({ _id: id });
     res.status(200).send(data);
   } catch (error) {
     res.status(400);
