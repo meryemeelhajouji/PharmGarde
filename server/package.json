@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon -L index.js",
-    "start": "node index.js"
+    "start": "node index.js",
+    "test": "npx jest"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
