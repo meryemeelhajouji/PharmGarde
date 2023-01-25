@@ -61,7 +61,22 @@ const login = async (req, res, next) => {
  * @method  GET
  */
 const verify = async (req, res, next) => {
-  // TODO: authentication verification
+  const { token } = req.cookies;
+
+  try {
+    const decoded = jwtChecker(token);
+
+    if (!decoded) {
+      throw new Error('Invalid token');
+    }
+
+    res.status(200).json({
+      success: true,
+    });
+  } catch (e) {
+    e.status = 401;
+    next(e);
+  }
 };
 
 module.exports = {
