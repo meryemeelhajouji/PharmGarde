@@ -58,7 +58,7 @@ useEffect(() => {
                 <div className='position-absolute fixed-top w-25 p-3 bg-white border border-dark mx-auto my-5 rounded-2'>
                   <form>
                     <p className='text-center'>
-                      Add New Pharmacies
+                      Add New Pharmaciess
                     </p>
                     <div class="form-group">
                       <label for="exampleInputEmail1">Pharmacies</label>
