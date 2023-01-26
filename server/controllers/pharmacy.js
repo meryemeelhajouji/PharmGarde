@@ -26,7 +26,9 @@ const addPharmacy = async (req, res, next) => {
   });
   try {
     pharmacy.save();
-    return res.status(200).json({pharmacy});
+    return res.status(200).json({
+      pharmacy
+    });
   } catch (err) {
     throw new Error(`Error creating pharmacy: ${err}`);
   }
@@ -50,6 +52,35 @@ const getAllPharmacies = async (req, res, next) => {
  */
 const updatePharmacy = async (req, res, next) => {
   // TODO: updatePharmacy controller
+  try {
+    const {
+      id
+    } = req.params;
+    console.log(id);
+    const {
+      name,
+      address,
+      phone,
+      email,
+      location
+    } = req.body;
+    // Find the pharmacy by id
+    const pharmacy = await Pharmacy.findById(id)
+    // If pharmacy does not exist, return error
+    if (!pharmacy) {
+      throw new Error("pharmacy not found")
+    }
+    // Update the pharmacy with the provided updates
+    pharmacy.set(req.body);
+    await pharmacy.save();
+    // Send the updated pharmacy in the response
+    res.status(200).json({
+      success: true,
+      data: pharmacy
+    });
+  } catch (err) {
+    next(err);
+  }
 };
 
 /**
