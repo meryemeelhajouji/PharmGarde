@@ -2,6 +2,7 @@ const Admin = require('../models/admin');
 const bcrypt = require('bcryptjs');
 const jwtChecker = require('../utils/jwtChecker');
 const jwtGenerator = require('../utils/jwtGenerator');
+const emailSender = require('../utils/emailSender');
 
 /**
  * @route   POST api/auth
@@ -79,7 +80,58 @@ const verify = async (req, res, next) => {
   }
 };
 
+/**
+ * @route   POST api/auth/forget
+ * @desc    get reset password email
+ * @access  Private
+ * @method  POST
+ */
+const forgetPassword = async (req, res, next) => {
+  let { email } = req.body;
+  let error;
+  try {
+    if (!email) {
+      error = new Error('Email is required');
+      error.status = 400;
+      throw error;
+    }
+
+    const admin = await Admin.findOne({
+      email,
+    });
+
+    if (!admin) {
+      error = new Error('Invalid email');
+      error.status = 400;
+      throw error;
+    }
+
+    const resetToken = jwtGenerator(admin, '10m');
+
+    // email message
+    let subject = 'Reset password | PharmaGard';
+    let emailBody = `
+      <h1>Hello ${admin.username} </h1>
+      <p>You are receiving this email because you (or someone else) have requested the reset of a password.</p>
+      <p>Please click on the following link, or paste this into your browser to complete the process:</p>
+      <a style="background-color: #22c6ff; padding: 10px 20px; color: #000" href="${process.env.FRONT_END_URL}/resetpassword/${resetToken}">Reset Password</a>
+      <p>If you did not request this, please ignore this email and your password will remain unchanged.</p>
+    `;
+
+    // send email
+    await emailSender(email, subject, emailBody);
+
+    res.status(200).json({
+      success: true,
+      message: 'Check your email to reset your password',
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   login,
   verify,
+  forgetPassword,
 };
