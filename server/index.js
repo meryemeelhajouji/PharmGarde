@@ -12,7 +12,7 @@ const projectRoutes = require('./routes');
 })();
 
 const app = express();
-app.use(express());
+app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
 

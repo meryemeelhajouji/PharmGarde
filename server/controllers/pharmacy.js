@@ -1,3 +1,4 @@
+const Pharmacy = require('../models/pharmacy')
 /**
  * @route   POST api/pharmacy
  * @desc    create new pharmacy
@@ -6,6 +7,29 @@
  */
 const addPharmacy = async (req, res, next) => {
   // TODO: addPharmacy controller
+  const {
+    name,
+    address,
+    phone,
+    email,
+    location
+  } = req.body
+
+  if (!req.body) return next(new ErrorResponse("Please provide the required data", 400))
+
+  const pharmacy = await new Pharmacy({
+    name: name,
+    address: address,
+    phone: phone,
+    email: email,
+    location: location
+  });
+  try {
+    pharmacy.save();
+    return res.status(200).json({pharmacy});
+  } catch (err) {
+    throw new Error(`Error creating pharmacy: ${err}`);
+  }
 };
 
 /**
