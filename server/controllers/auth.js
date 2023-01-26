@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwtChecker = require('../utils/jwtChecker');
 const jwtGenerator = require('../utils/jwtGenerator');
 const emailSender = require('../utils/emailSender');
+const jwt = require('jsonwebtoken');
 
 /**
  * @route   POST api/auth
@@ -130,8 +131,73 @@ const forgetPassword = async (req, res, next) => {
   }
 };
 
+/**
+ * @route   POST api/auth/reset/:id
+ * @desc    reset the password for the provided id
+ * @access  Private
+ * @method  POST
+ */
+const resetPassword = async (req, res, next) => {
+  let token = req.params.token;
+  let password = req.body.password;
+  let error;
+
+  try {
+    if (!password) {
+      error = new Error('Password is required');
+      error.status = 400;
+      throw error;
+    }
+
+    let decoded;
+    try {
+      decoded = jwt.verify(token, process.env.JWT_SECRET);
+    } catch (e) {
+      error = new Error('Invalid reset token hhhhhhhhhhhhhhh');
+      error.status = 401;
+      throw error;
+    }
+
+    const user = await Admin.findOne({
+      email: decoded.email,
+    });
+
+    if (!user) {
+      error = new Error('Invalid reset token');
+      error.status = 401;
+      throw error;
+    }
+
+    // hash the password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+    const newPass = {
+      password: hashedPassword,
+    };
+
+    await Admin.findOneAndUpdate(
+      {
+        email: decoded.email,
+      },
+      {
+        $set: newPass,
+      },
+      {
+        new: true,
+      }
+    );
+
+    res.status(200).json({
+      success: true,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   login,
   verify,
   forgetPassword,
+  resetPassword,
 };
