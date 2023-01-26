@@ -23,3 +23,5 @@ const port = 5000 || process.env.PORT;
 app.listen(port, () => {
   process.env.NODE_ENV != 'production' && console.log(`server running in development mode on port ${port}`);
 });
+
+module.exports = app

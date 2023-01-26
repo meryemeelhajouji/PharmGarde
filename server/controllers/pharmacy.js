@@ -7,30 +7,31 @@ const Pharmacy = require('../models/pharmacy')
  */
 const addPharmacy = async (req, res, next) => {
   // TODO: addPharmacy controller
-  const {
-    name,
-    address,
-    phone,
-    email,
-    location
-  } = req.body
-
-  if (!req.body) return next(new ErrorResponse("Please provide the required data", 400))
-
-  const pharmacy = await new Pharmacy({
-    name: name,
-    address: address,
-    phone: phone,
-    email: email,
-    location: location
-  });
   try {
+    const {
+      name,
+      address,
+      phone,
+      email,
+      location
+    } = req.body
+  
+    if (!req.body) throw new Error("Please provide the required data")
+  
+    const pharmacy = new Pharmacy({
+      name: name,
+      address: address,
+      phone: phone,
+      email: email,
+      location: location
+    });
     pharmacy.save();
     return res.status(200).json({
       pharmacy
     });
   } catch (err) {
-    throw new Error(`Error creating pharmacy: ${err}`);
+    err.status = 400
+    next(err)
   }
 };
 
