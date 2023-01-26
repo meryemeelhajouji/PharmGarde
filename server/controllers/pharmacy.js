@@ -43,6 +43,16 @@ const addPharmacy = async (req, res, next) => {
  */
 const getAllPharmacies = async (req, res, next) => {
   // TODO: getAllPharmacies controller
+  try {
+    const data = await Pharmacy.find({});
+
+    console.log(data);
+
+    res.send(data).status(200);
+  } catch (error) {
+    console.log(error);
+    res.status(400).send({ message: 'pharmacy is not founded' });
+  }
 };
 
 /**
@@ -92,6 +102,13 @@ const updatePharmacy = async (req, res, next) => {
  */
 const removePharmacy = async (req, res, next) => {
   // TODO: removePharmacy controller
+  const id = req.params.id;
+  await Pharmacy.findByIdAndDelete({ _id: id });
+
+  res.status(200).json({
+    success: true,
+    message: 'pharmacy deleted successfully',
+  });
 };
 
 /**
@@ -102,6 +119,14 @@ const removePharmacy = async (req, res, next) => {
  */
 const getPharmacyById = async (req, res, next) => {
   // TODO: getPharmacyById controller
+  const id = req.params.id;
+  try {
+    const data = await Pharmacy.findOne({ _id: id });
+    res.status(200).send(data);
+  } catch (error) {
+    res.status(400);
+    throw new Error(error);
+  }
 };
 
 /**
@@ -112,6 +137,14 @@ const getPharmacyById = async (req, res, next) => {
  */
 const changePharmacyState = async (req, res, next) => {
   // TODO: changePharmacyState controller
+  let idPharmacy = req.params.id;
+
+  try {
+    if (await Pharmacy.updateOne({ _id: idPharmacy }, { statuts:true})) res.status(200).send('updated successfully');
+    else res.status(400).send('Pharmacy dont  existe');
+  } catch (error) {
+    next(error);
+  }
 };
 
 /**
@@ -122,6 +155,17 @@ const changePharmacyState = async (req, res, next) => {
  */
 const getGardingPharmacies = async (req, res, next) => {
   // TODO: getGardingPharmacies controller
+  try {
+    const Pharmacie = await Pharmacy.find({
+      statuts: true,
+    });
+    res.status(200).json({
+      success: true,
+      Pharmacie: Pharmacie,
+    });
+  } catch (error) {
+    res.status(400).send(error);
+  }
 };
 
 module.exports = {

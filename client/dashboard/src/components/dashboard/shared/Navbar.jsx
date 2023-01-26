@@ -1,11 +1,11 @@
 import React from "react";
 // import Logout from '../shared/Navbar'
-import {
-  HiMenuAlt2,
-  FaUserCircle,
-  HiMenuAlt3,
-  BiSearch,
-} from "../../../assets/icons";
+// import {
+//   HiMenuAlt2,
+//   FaUserCircle,
+//   HiMenuAlt3,
+//   BiSearch,
+// } from "../../../assets/icons";
 
 
 
@@ -34,7 +34,6 @@ function logout() {
               className="input input-bordered input-xs text-black"
             />
             <button className="btn btn-square btn-xs">
-              <BiSearch size={24} />
             </button>
           </div>
        <h2>{'Admin'} </h2>

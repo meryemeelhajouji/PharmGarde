@@ -1,0 +1,25 @@
+body {
+    width: 100%;
+    height: 100%;
+    font-size: 17px;
+    line-height: 22px;
+    color: var(--main-text-color);
+    background: #F9F9F9;
+  }
+.divs1 {
+    width: 78vw;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .divs2 {
+    width: 18.56vw;
+    height: 100%;
+    border-radius: 0.7vw;
+    padding: 15px;
+  }
+  
+  .num {
+    margin: 0px;
+  }
