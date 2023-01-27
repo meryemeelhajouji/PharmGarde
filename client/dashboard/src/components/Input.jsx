@@ -2,8 +2,8 @@ import React from 'react';
 
 const Input = ({ id, type, placeholder, value, onChange, name, label }) => {
   return (
-    <div>
-      <label htmlFor={id} className="block text-xs font-medium text-gray-700">
+    <div className="mb-4">
+      <label htmlFor={id} className="block text-xs font-medium text-gray-700 mb-2">
         {label}
       </label>
 
@@ -14,7 +14,7 @@ const Input = ({ id, type, placeholder, value, onChange, name, label }) => {
         name={name}
         value={value}
         onChange={onChange}
-        className="mt-1 w-full rounded-md border-gray-200 shadow-sm sm:text-sm"
+        className="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm"
       />
     </div>
   );
