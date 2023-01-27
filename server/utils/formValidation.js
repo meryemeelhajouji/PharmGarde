@@ -1,6 +1,6 @@
 class InputValidation {
   // Validate product
-  pharmacyValidation(name = '', address = '', phone, email, coordinates, location) {
+  pharmacyValidation(name = '', address = '', phone, email) {
     try {
       this.validatePharmacyName(name);
       this.validateAddress(address);
@@ -10,6 +10,7 @@ class InputValidation {
       throw error;
     }
   }
+
 
   validatePrice(price) {
     // more than 0
