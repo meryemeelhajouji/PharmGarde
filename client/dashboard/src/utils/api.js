@@ -8,3 +8,9 @@ export const login = async (email, password) => {
   const { data } = await axios.post('/auth/login', { email, password });
   return data;
 };
+
+// forget password
+export const forgetPassword = async (email) => {
+  const { data } = await axios.post('/auth/forget', { email });
+  return data;
+};

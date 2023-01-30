@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Button from '../components/Button';
 import Input from '../components/Input';
 import { login } from '../utils/api';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -65,6 +65,12 @@ const Login = () => {
           value={password}
           onChange={handleChange}
         />
+
+        <div className="text-sm">
+          <Link to="/forget-password" className="font-medium text-indigo-600 hover:text-indigo-500">
+            Forgot your password?
+          </Link>
+        </div>
 
         <Button type="submit" content="Login" />
       </form>
