@@ -4,6 +4,7 @@ import axios from 'axios';
 
 function PharmaciesPage() {
   const [showAddModal, setshowAddModal] = useState(false);
+  const [checked, setChecked] = useState([]);
   const [formData, setFormData] = useState({
     name: '',
     address: '',
@@ -14,6 +15,15 @@ function PharmaciesPage() {
     statuts: '',
   });
   const [Pharmacy, SetPharmacy] = useState([]);
+  const handleCheck = (event) => {
+    var updatedList = [...checked];
+    if (event.target.checked) {
+      // updatedList = [...checked, event.target.value];
+    } else {
+      // updatedList.splice(checked.indexOf(event.target.value), 1);
+    }
+    setChecked(updatedList);
+  };
 
   const URL = 'http://localhost:5000/api/pharmacy/';
   function GetPharmacy() {
@@ -41,7 +51,7 @@ function PharmaciesPage() {
     const url = 'http://localhost:5000/api/pharmacy/gard/' + id;
     try {
       const res = await axios.put(url);
-      console.log("good")
+      console.log('good');
       GetPharmacy().then((response) => {
         SetPharmacy(response.data);
       });
@@ -62,6 +72,20 @@ function PharmaciesPage() {
             <p class="">Pharmacies pages</p>
           </div>
           <div class="d-flex justify-content-between">
+            <div class="d-flex justify-content-start">
+              <div class="flex items-center mb-4">
+                <input
+                  id="default-checkbox"
+                  type="checkbox"
+                  value=""
+                  class="w-4 h-4 text-blue-600 bg-gray-100 border-dark-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-dark-700 dark:border-dark-600"
+                  onChange={handleCheck} 
+                />
+                <label for="default-checkbox" class="ml-2 text-sm font-medium text-gray-900 dark:text-dark-300">
+                 Pharmacie en garde
+                </label>
+              </div>
+            </div>
             <div class="d-flex justify-content-between mt-3 fw-bold"></div>
             <div class="d-flex justify-content-end my-2 px-5 fw-bold">
               <button

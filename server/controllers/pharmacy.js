@@ -117,12 +117,12 @@ const changePharmacyState = async (req, res, next) => {
 const getGardingPharmacies = async (req, res, next) => {
   // TODO: getGardingPharmacies controller
   try {
-    const Pharmacie = await Pharmacy.find({
+    const data = await Pharmacy.find({
       statuts: true,
     });
     res.status(200).json({
       success: true,
-      Pharmacie: Pharmacie,
+      data: data,
     });
   } catch (error) {
     res.status(400).send(error);
