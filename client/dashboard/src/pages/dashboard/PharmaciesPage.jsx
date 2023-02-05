@@ -4,6 +4,7 @@ import axios from 'axios';
 
 function PharmaciesPage() {
   const [showAddModal, setshowAddModal] = useState(false);
+  const [checked, setChecked] = useState([]);
   const [formData, setFormData] = useState({
     name: '',
     address: '',
@@ -14,6 +15,15 @@ function PharmaciesPage() {
     statuts: '',
   });
   const [Pharmacy, SetPharmacy] = useState([]);
+  const handleCheck = (event) => {
+    var updatedList = [...checked];
+    if (event.target.checked) {
+      // updatedList = [...checked, event.target.value];
+    } else {
+      // updatedList.splice(checked.indexOf(event.target.value), 1);
+    }
+    setChecked(updatedList);
+  };
 
   const URL = 'http://localhost:5000/api/pharmacy/';
   function GetPharmacy() {
@@ -69,6 +79,7 @@ function PharmaciesPage() {
                   type="checkbox"
                   value=""
                   class="w-4 h-4 text-blue-600 bg-gray-100 border-dark-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-dark-700 dark:border-dark-600"
+                  onChange={handleCheck} 
                 />
                 <label for="default-checkbox" class="ml-2 text-sm font-medium text-gray-900 dark:text-dark-300">
                  Pharmacie en garde
