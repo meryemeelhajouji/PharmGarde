@@ -16,6 +16,16 @@ function PharmaciesPage() {
   const [Pharmacy, SetPharmacy] = useState([]);
 
   const URL = 'http://localhost:5000/api/pharmacy/';
+
+  const addPharmacy = () => {
+    axios.post(URL,formData)
+    .then((response) => {
+      console.log(response);
+    }).catch((err) => {
+      console.log(err);
+    })
+  }
+
   function GetPharmacy() {
     axios.get(URL).then((response) => {
       SetPharmacy(response.data);
@@ -78,8 +88,8 @@ function PharmaciesPage() {
                     <div class="form-group">
                       <label for="exampleInputEmail1">Pharmacies</label>
                       <input
-                        type=""
-                        name=""
+                        type="text"
+                        name="pharmacy"
                         class="form-control rounded-3"
                         id="exampleInputEmail1"
                         aria-describePharmacyy="emailHelp"
@@ -89,8 +99,8 @@ function PharmaciesPage() {
                     <div class="form-group">
                       <label for="exampleInputEmail1">phone</label>
                       <input
-                        type="text"
-                        name=""
+                        type="phone"
+                        name="phone"
                         class="form-control rounded-3"
                         id="exampleInputEmail1"
                         aria-describePharmacyy="emailHelp"
@@ -102,7 +112,7 @@ function PharmaciesPage() {
                       <label for="exampleInputEmail1">name</label>
                       <input
                         type="text"
-                        name=""
+                        name="name"
                         class="form-control rounded-3"
                         id="exampleInputEmail1"
                         aria-describePharmacyy="emailHelp"
@@ -113,8 +123,8 @@ function PharmaciesPage() {
                     <div class="form-group">
                       <label for="exampleInputEmail1">address</label>
                       <input
-                        type="address"
-                        name=""
+                        type="text"
+                        name="address"
                         class="form-control rounded-3"
                         id="exampleInputEmail1"
                         aria-describePharmacyy="emailHelp"
@@ -125,8 +135,8 @@ function PharmaciesPage() {
                     <div class="form-group">
                       <label for="exampleInputEmail1">coordinates</label>
                       <input
-                        type="address"
-                        name=""
+                        type="text"
+                        name="coordinates"
                         class="form-control rounded-3"
                         id="exampleInputEmail1"
                         aria-describePharmacyy="emailHelp"
@@ -137,8 +147,8 @@ function PharmaciesPage() {
                     <div class="form-group">
                       <label for="exampleInputEmail1">location</label>
                       <input
-                        type="address"
-                        name=""
+                        type="text"
+                        name="location"
                         class="form-control rounded-3"
                         id="exampleInputEmail1"
                         aria-describePharmacyy="emailHelp"
@@ -146,7 +156,7 @@ function PharmaciesPage() {
                       />
                     </div>
                     <div className="w-100 d-flex justify-content-between">
-                      <button class="btn bg-dark px-3 text-white mt-2 Button_ajoute">Add</button>
+                      <button onClick={addPharmacy} class="btn bg-dark px-3 text-white mt-2 Button_ajoute">Add</button>
                       <button class="btn bg-dark px-3 text-white mt-2 Button_ajoute">Cancel</button>
                     </div>
                     <p className="text-center text-danger"></p>
