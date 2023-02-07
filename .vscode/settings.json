@@ -1,0 +1,10 @@
+{
+  "html.format.wrapAttributes": "force-aligned",
+  "editor.formatOnSave": true,
+  "beautify.config": "",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "beautify.ignore": ["**/*.js", "**/*.jsx"],
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
+}
