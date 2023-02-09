@@ -50,6 +50,11 @@ class DataValidation {
   validateLocation(location) {
     const { region, coordinates } = location;
 
+    if (!region || !coordinates) {
+      const error = new Error('location is not valid');
+      throw error;
+    }
+
     // region regex
     if (!region.match(/^[a-zA-Z0-9]{3,30}$/)) {
       const error = new Error('region is not valid');
