@@ -12,7 +12,7 @@ function PharmaciesPage() {
     phone: '',
     coordinates: '',
     location: '',
-    statuts: '',
+    status: '',
   });
   const [Pharmacy, SetPharmacy] = useState([]);
   const handleCheck = (event) => {
@@ -79,10 +79,10 @@ function PharmaciesPage() {
                   type="checkbox"
                   value=""
                   class="w-4 h-4 text-blue-600 bg-gray-100 border-dark-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-dark-700 dark:border-dark-600"
-                  onChange={handleCheck} 
+                  onChange={handleCheck}
                 />
                 <label for="default-checkbox" class="ml-2 text-sm font-medium text-gray-900 dark:text-dark-300">
-                 Pharmacie en garde
+                  Pharmacie en garde
                 </label>
               </div>
             </div>
@@ -204,7 +204,7 @@ function PharmaciesPage() {
                     <td>{data.phone}</td>
                     <td>{data.coordinates}</td>
                     <td>{data.location}</td>
-                    <td>{data.statuts ? 'en garde' : 'none'}</td>
+                    <td>{data.status ? 'en garde' : 'none'}</td>
                     <td>
                       <button class="btn bg-white border border-dark p-1 px-2 text-dark Button_ajoute">Update</button>
                     </td>

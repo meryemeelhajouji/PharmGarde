@@ -172,7 +172,7 @@ const changePharmacyState = async (req, res, next) => {
       throw error;
     }
 
-    pharmacy.statuts = !pharmacy.statuts;
+    pharmacy.status = !pharmacy.status;
     const resPharmacy = await pharmacy.save();
 
     res.status(200).json({
@@ -193,7 +193,7 @@ const changePharmacyState = async (req, res, next) => {
 const getGardingPharmacies = async (req, res, next) => {
   try {
     const data = await Pharmacy.find({
-      statuts: true,
+      status: true,
     });
     res.status(200).json({
       success: true,

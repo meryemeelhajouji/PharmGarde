@@ -29,7 +29,7 @@ describe('Pharmacy', () => {
 
   it('changePharmacyState ', async () => {
     const res = await supertest(app).get('/api/pharmacy/gard/63d0fd993cdd15fc831391f5').send({
-      statuts: true,
+      status: true,
     });
     expect(res.statusCode).toEqual(200);
   });
