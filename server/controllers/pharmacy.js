@@ -48,13 +48,15 @@ const addPharmacy = async (req, res, next) => {
  * @method GET
  */
 const getAllPharmacies = async (req, res, next) => {
-  // TODO: getAllPharmacies controller
   try {
     const data = await Pharmacy.find({});
 
-    console.log(data);
-
-    res.send(data).status(200);
+    res
+      .send({
+        success: true,
+        data,
+      })
+      .status(200);
   } catch (error) {
     console.log(error);
     res.status(400).send({ message: 'pharmacy is not founded' });
