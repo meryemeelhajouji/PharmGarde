@@ -1,4 +1,5 @@
-const Pharmacy = require('../models/pharmacy')
+const Pharmacy = require('../models/pharmacy');
+const DataValidtaion = require('../utils/dataValidation');
 /**
  * @route   POST api/pharmacy
  * @desc    create new pharmacy
@@ -6,23 +7,38 @@ const Pharmacy = require('../models/pharmacy')
  * @method  POST
  */
 const addPharmacy = async (req, res, next) => {
-  // TODO: addPharmacy controller
-  const { name, address, phone, email, location, coordinates } = req.body;
+  try {
+    const { name, address, phone, location } = req.body;
+    console.log(name);
+    console.log(name.match(/[a-zA-Z0-9]{3,}$/));
 
-  const Pharmacie = await Pharmacy.create({
-      name, 
-      address, 
+    const dataValidation = new DataValidtaion();
+    dataValidation.pharmacyValidation(name, address, phone, location);
+
+    // check if there is a pharmacy with the same name
+    const exist = await Pharmacy.findOne({ name });
+
+    if (exist) {
+      const error = new Error('pharmacy already exist');
+      error.status = 400;
+      throw error;
+    }
+
+    const Pharmacie = await Pharmacy.create({
+      name,
+      address,
       phone,
-     email, 
-     location, 
-     coordinates 
-  });
-  console.log(req.body);
+      location,
+    });
 
-  res.status(200).json({
-    success: true,
-    Pharmacie,
-  });
+    res.status(200).json({
+      success: true,
+      data: Pharmacie,
+    });
+  } catch (error) {
+    error.status = 400;
+    next(error);
+  }
 };
 
 /**
@@ -32,16 +48,18 @@ const addPharmacy = async (req, res, next) => {
  * @method GET
  */
 const getAllPharmacies = async (req, res, next) => {
-  // TODO: getAllPharmacies controller
   try {
     const data = await Pharmacy.find({});
 
-    console.log(data);
-
-    res.send(data).status(200);
+    res
+      .send({
+        success: true,
+        data,
+      })
+      .status(200);
   } catch (error) {
-    console.log(error);
-    res.status(400).send({ message: 'pharmacy is not founded' });
+    error.status = 404;
+    next(error);
   }
 };
 
@@ -52,7 +70,36 @@ const getAllPharmacies = async (req, res, next) => {
  * @method PUT
  */
 const updatePharmacy = async (req, res, next) => {
-  // TODO: updatePharmacy controller
+  try {
+    const id = req.params.id;
+    const { name, address, phone, location } = req.body;
+
+    const dataValidation = new DataValidtaion();
+    dataValidation.pharmacyValidation(name, address, phone, location);
+
+    const pharmacy = await Pharmacy.findOneAndUpdate(
+      { _id: id },
+      {
+        name,
+        address,
+        phone,
+        location,
+      }
+    );
+
+    if (!pharmacy) {
+      const error = new Error('pharmacy not found');
+      error.status = 400;
+      throw error;
+    }
+
+    res.status(200).json({
+      success: true,
+    });
+  } catch (error) {
+    error.status = 404;
+    next(error);
+  }
 };
 
 /**
@@ -62,14 +109,24 @@ const updatePharmacy = async (req, res, next) => {
  * @method DELETE
  */
 const removePharmacy = async (req, res, next) => {
-  // TODO: removePharmacy controller
-  const id = req.params.id;
-  await Pharmacy.findByIdAndDelete({ _id: id });
+  try {
+    const id = req.params.id;
 
-  res.status(200).json({
-    success: true,
-    message: 'pharmacy deleted successfully',
-  });
+    const pharmacy = await Pharmacy.findOneAndDelete({ _id: id });
+
+    if (!pharmacy) {
+      const error = new Error('pharmacy not found');
+      error.status = 400;
+      throw error;
+    }
+
+    res.status(200).json({
+      success: true,
+    });
+  } catch (error) {
+    error.status = 404;
+    next(error);
+  }
 };
 
 /**
@@ -79,14 +136,22 @@ const removePharmacy = async (req, res, next) => {
  * @method GET
  */
 const getPharmacyById = async (req, res, next) => {
-  // TODO: getPharmacyById controller
-  const id = req.params.id;
   try {
+    const id = req.params.id;
     const data = await Pharmacy.findOne({ _id: id });
-    res.status(200).send(data);
+
+    if (!data) {
+      const error = new Error('pharmacy not found');
+      error.status = 404;
+      throw error;
+    }
+
+    res.status(200).json({
+      success: true,
+      data,
+    });
   } catch (error) {
-    res.status(400);
-    throw new Error(error);
+    next(error);
   }
 };
 
@@ -97,35 +162,45 @@ const getPharmacyById = async (req, res, next) => {
  * @method PUT
  */
 const changePharmacyState = async (req, res, next) => {
-  // TODO: changePharmacyState controller
-  let idPharmacy = req.params.id;
-
   try {
-    if (await Pharmacy.updateOne({ _id: idPharmacy }, { statuts:true})) res.status(200).send('updated successfully');
-    else res.status(400).send('Pharmacy dont  existe');
+    let idPharmacy = req.params.id;
+    const pharmacy = await Pharmacy.findOne({ _id: idPharmacy });
+
+    if (!pharmacy) {
+      const error = new Error('pharmacy not found');
+      error.status = 404;
+      throw error;
+    }
+
+    pharmacy.status = !pharmacy.status;
+    const resPharmacy = await pharmacy.save();
+
+    res.status(200).json({
+      success: true,
+      data: resPharmacy,
+    });
   } catch (error) {
     next(error);
   }
 };
 
 /**
- * @route GET api/pharmacy/gard
+ * @route GET api/pharmacy/gard/active
  * @desc get pharmacies that need garding
  * @access Private
  * @method GET
  */
 const getGardingPharmacies = async (req, res, next) => {
-  // TODO: getGardingPharmacies controller
   try {
     const data = await Pharmacy.find({
-      statuts: true,
+      status: true,
     });
     res.status(200).json({
       success: true,
       data: data,
     });
   } catch (error) {
-    res.status(400).send(error);
+    next(error);
   }
 };
 

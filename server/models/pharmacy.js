@@ -13,23 +13,17 @@ const pharmacySchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  statuts: {
+  status: {
     type: Boolean,
     default: false,
   },
   location: {
-    type: {
+    region: {
       type: String,
-      enum: ['Point'],
+      required: true,
     },
     coordinates: {
       type: [Number],
-      index: '2dsphere',
     },
   },
 });
