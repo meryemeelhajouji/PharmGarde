@@ -185,13 +185,12 @@ const changePharmacyState = async (req, res, next) => {
 };
 
 /**
- * @route GET api/pharmacy/gard
+ * @route GET api/pharmacy/gard/active
  * @desc get pharmacies that need garding
  * @access Private
  * @method GET
  */
 const getGardingPharmacies = async (req, res, next) => {
-  // TODO: getGardingPharmacies controller
   try {
     const data = await Pharmacy.find({
       statuts: true,
@@ -201,7 +200,7 @@ const getGardingPharmacies = async (req, res, next) => {
       data: data,
     });
   } catch (error) {
-    res.status(400).send(error);
+    next(error);
   }
 };
 
