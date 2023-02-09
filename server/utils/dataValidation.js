@@ -16,7 +16,7 @@ class DataValidation {
   // Validate name
   validateName(name) {
     // name regex
-    if (!name.match(/^[a-zA-Z0-9]{3,30}$/)) {
+    if (!name.match(/[a-zA-Z0-9]{3,}$/)) {
       const error = new Error('name is not valid');
       throw error;
     }
@@ -27,7 +27,7 @@ class DataValidation {
   // Validate address
   validateAddress(address) {
     // address regex
-    if (!address.match(/^[a-zA-Z0-9]{3,30}$/)) {
+    if (!address.match(/[a-zA-Z0-9]{3,30}$/)) {
       const error = new Error('address is not valid');
       throw error;
     }
@@ -38,7 +38,7 @@ class DataValidation {
   // Validate phone
   validatePhone(phone) {
     // email regex
-    if (!phone.match(/^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/)) {
+    if (!phone.match(/\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/)) {
       const error = new Error('phone is not valid');
       throw error;
     }
@@ -56,20 +56,14 @@ class DataValidation {
     }
 
     // region regex
-    if (!region.match(/^[a-zA-Z0-9]{3,30}$/)) {
+    if (!region.match(/[a-zA-Z0-9]{3,30}$/)) {
       const error = new Error('region is not valid');
       throw error;
     }
 
     // coordinates [longitude, latitude]
-    const [longitude, latitude] = coordinates;
-    if (longitude < -180 || longitude > 180) {
-      const error = new Error('longitude is not valid');
-      throw error;
-    }
-
-    if (latitude < -90 || latitude > 90) {
-      const error = new Error('latitude is not valid');
+    if (!Array.isArray(coordinates) || coordinates.length !== 2) {
+      const error = new Error('coordinates is not valid');
       throw error;
     }
 
