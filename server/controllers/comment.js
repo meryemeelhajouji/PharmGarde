@@ -69,7 +69,27 @@ const getPharmacyComments = async (req, res, next) => {
   }
 };
 
+/**
+ * @route GET api/comment/
+ * @desc Get all comments
+ * @access Private
+ * @method GET
+ */
+const getAllComments = async (req, res, next) => {
+  try {
+    const comments = await Comment.find().populate('pharmacy');
+
+    res.status(200).json({
+      success: true,
+      data: comments,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   addComment,
   getPharmacyComments,
+  getAllComments,
 };
