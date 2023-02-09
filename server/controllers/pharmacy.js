@@ -1,4 +1,5 @@
-const Pharmacy = require('../models/pharmacy')
+const Pharmacy = require('../models/pharmacy');
+const DataValidtaion = require('../utils/dataValidation');
 /**
  * @route   POST api/pharmacy
  * @desc    create new pharmacy
@@ -6,23 +7,38 @@ const Pharmacy = require('../models/pharmacy')
  * @method  POST
  */
 const addPharmacy = async (req, res, next) => {
-  // TODO: addPharmacy controller
-  const { name, address, phone, email, location, coordinates } = req.body;
+  try {
+    const { name, address, phone, location } = req.body;
+    console.log(name);
+    console.log(name.match(/[a-zA-Z0-9]{3,}$/));
 
-  const Pharmacie = await Pharmacy.create({
-      name, 
-      address, 
+    const dataValidation = new DataValidtaion();
+    dataValidation.pharmacyValidation(name, address, phone, location);
+
+    // check if there is a pharmacy with the same name
+    const exist = await Pharmacy.findOne({ name });
+
+    if (exist) {
+      const error = new Error('pharmacy already exist');
+      error.status = 400;
+      throw error;
+    }
+
+    const Pharmacie = await Pharmacy.create({
+      name,
+      address,
       phone,
-     email, 
-     location, 
-     coordinates 
-  });
-  console.log(req.body);
+      location,
+    });
 
-  res.status(200).json({
-    success: true,
-    Pharmacie,
-  });
+    res.status(200).json({
+      success: true,
+      data: Pharmacie,
+    });
+  } catch (error) {
+    error.status = 400;
+    next(error);
+  }
 };
 
 /**
@@ -101,7 +117,7 @@ const changePharmacyState = async (req, res, next) => {
   let idPharmacy = req.params.id;
 
   try {
-    if (await Pharmacy.updateOne({ _id: idPharmacy }, { statuts:true})) res.status(200).send('updated successfully');
+    if (await Pharmacy.updateOne({ _id: idPharmacy }, { statuts: true })) res.status(200).send('updated successfully');
     else res.status(400).send('Pharmacy dont  existe');
   } catch (error) {
     next(error);
