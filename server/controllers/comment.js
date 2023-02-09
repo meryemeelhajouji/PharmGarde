@@ -41,6 +41,35 @@ const addComment = async (req, res, next) => {
   }
 };
 
+/**
+ * @route GET api/comment/:id
+ * @desc Get all comments for a pharmacy
+ * @access Public
+ * @method GET
+ */
+const getPharmacyComments = async (req, res, next) => {
+  try {
+    const pharmacy = req.params.id;
+
+    const isExist = await Pharmacy.findById(pharmacy);
+    if (!isExist) {
+      error = new Error('No pharmacy found');
+      error.status = 404;
+      throw error;
+    }
+
+    const comments = await Comment.find({ pharmacy });
+
+    res.status(200).json({
+      success: true,
+      data: comments,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   addComment,
+  getPharmacyComments,
 };
