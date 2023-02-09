@@ -109,14 +109,24 @@ const updatePharmacy = async (req, res, next) => {
  * @method DELETE
  */
 const removePharmacy = async (req, res, next) => {
-  // TODO: removePharmacy controller
-  const id = req.params.id;
-  await Pharmacy.findByIdAndDelete({ _id: id });
+  try {
+    const id = req.params.id;
 
-  res.status(200).json({
-    success: true,
-    message: 'pharmacy deleted successfully',
-  });
+    const pharmacy = await Pharmacy.findOneAndDelete({ _id: id });
+
+    if (!pharmacy) {
+      const error = new Error('pharmacy not found');
+      error.status = 400;
+      throw error;
+    }
+
+    res.status(200).json({
+      success: true,
+    });
+  } catch (error) {
+    error.status = 404;
+    next(error);
+  }
 };
 
 /**
