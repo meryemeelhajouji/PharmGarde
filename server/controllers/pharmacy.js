@@ -58,8 +58,8 @@ const getAllPharmacies = async (req, res, next) => {
       })
       .status(200);
   } catch (error) {
-    console.log(error);
-    res.status(400).send({ message: 'pharmacy is not founded' });
+    error.status = 404;
+    next(error);
   }
 };
 
