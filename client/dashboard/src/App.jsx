@@ -1,6 +1,6 @@
 import './styles/App.css';
 import { Routes, Route } from 'react-router-dom';
-import { HomePage, CommentairesPage, PharmaciesPage, LoginPage, ForgetPasswordPage } from './pages';
+import { HomePage, CommentairesPage, PharmaciesPage, LoginPage, ForgetPasswordPage, ResetPassword } from './pages';
 import Layout from './components/dashboard/shared/Layout';
 
 function App() {
@@ -9,6 +9,7 @@ function App() {
       <Routes>
         <Route path="/" element={<LoginPage />} />
         <Route path="/forget-password" element={<ForgetPasswordPage />} />
+        <Route path="/resetpassword/:token" element={<ResetPassword />} />
         <Route path="/dashboard" element={<Layout />}>
           <Route index element={<HomePage />} />
           <Route path="comments" element={<CommentairesPage />} />

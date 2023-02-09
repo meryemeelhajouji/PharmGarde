@@ -107,8 +107,8 @@ const forgetPassword = async (req, res, next) => {
       throw error;
     }
 
-    const resetToken = jwtGenerator(admin, '10m');
-
+    let resetToken = jwtGenerator(admin, '10m');
+    resetToken = resetToken.split('.').join('');
     // email message
     let subject = 'Reset password | PharmaGard';
     let emailBody = `
@@ -141,6 +141,7 @@ const resetPassword = async (req, res, next) => {
   let token = req.params.token;
   let password = req.body.password;
   let error;
+  console.log(token, password);
 
   try {
     if (!password) {
@@ -153,7 +154,7 @@ const resetPassword = async (req, res, next) => {
     try {
       decoded = jwt.verify(token, process.env.JWT_SECRET);
     } catch (e) {
-      error = new Error('Invalid reset token hhhhhhhhhhhhhhh');
+      error = new Error('Invalid reset token');
       error.status = 401;
       throw error;
     }

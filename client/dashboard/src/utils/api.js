@@ -14,3 +14,9 @@ export const forgetPassword = async (email) => {
   const { data } = await axios.post('/auth/forget', { email });
   return data;
 };
+
+// reset password
+export const resetPassword = async (token, password) => {
+  const { data } = await axios.post(`/auth/reset/${token}`, { password });
+  return data;
+};
