@@ -136,14 +136,22 @@ const removePharmacy = async (req, res, next) => {
  * @method GET
  */
 const getPharmacyById = async (req, res, next) => {
-  // TODO: getPharmacyById controller
-  const id = req.params.id;
   try {
+    const id = req.params.id;
     const data = await Pharmacy.findOne({ _id: id });
-    res.status(200).send(data);
+
+    if (!data) {
+      const error = new Error('pharmacy not found');
+      error.status = 404;
+      throw error;
+    }
+
+    res.status(200).json({
+      success: true,
+      data,
+    });
   } catch (error) {
-    res.status(400);
-    throw new Error(error);
+    next(error);
   }
 };
 
