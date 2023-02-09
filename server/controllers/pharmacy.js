@@ -70,7 +70,36 @@ const getAllPharmacies = async (req, res, next) => {
  * @method PUT
  */
 const updatePharmacy = async (req, res, next) => {
-  // TODO: updatePharmacy controller
+  try {
+    const id = req.params.id;
+    const { name, address, phone, location } = req.body;
+
+    const dataValidation = new DataValidtaion();
+    dataValidation.pharmacyValidation(name, address, phone, location);
+
+    const pharmacy = await Pharmacy.findOneAndUpdate(
+      { _id: id },
+      {
+        name,
+        address,
+        phone,
+        location,
+      }
+    );
+
+    if (!pharmacy) {
+      const error = new Error('pharmacy not found');
+      error.status = 400;
+      throw error;
+    }
+
+    res.status(200).json({
+      success: true,
+    });
+  } catch (error) {
+    error.status = 404;
+    next(error);
+  }
 };
 
 /**
