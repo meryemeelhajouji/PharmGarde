@@ -32,49 +32,49 @@ const Login = () => {
   };
 
   return (
-    <div className="mx-auto min-h-screen max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-lg text-center">
+    <main className="w-full h-screen flex flex-col items-center justify-center px-4">
+      <div className="max-w-sm w-full text-gray-600">
+        <div className="text-center">
+          <div className="mt-5 space-y-2">
+            <h3 className="text-gray-800 text-2xl font-bold sm:text-3xl">Log in to your account</h3>
+          </div>
+        </div>
         {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6" role="alert">
-            <strong className="font-bold">Error!</strong>
-            <span className="block sm:inline">{error}</span>
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-4" role="alert">
+            <p>
+              <strong className="font-bold">Error!</strong>
+            </p>
+            <p className="block sm:inline">{error}</p>
           </div>
         )}
-        <h1 className="text-2xl font-bold sm:text-3xl">Get started today!</h1>
-        <p className="mt-4 text-gray-500">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Et libero nulla eaque error neque ipsa culpa autem,
-          at itaque nostrum!
-        </p>
+        <form onSubmit={handleSubmit} className="mt-8 space-y-5">
+          <Input
+            id="email"
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={handleChange}
+            name="email"
+            label="Email"
+          />
+          <Input
+            id="password"
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={handleChange}
+            name="password"
+            label="Password"
+          />
+          <Button type="submit" content="Log in" />
+          <div className="text-center">
+            <Link to="forget-password" className="hover:text-indigo-600">
+              Forgot password?
+            </Link>
+          </div>
+        </form>
       </div>
-      <form onSubmit={handleSubmit} className="mx-auto mt-8 mb-0 max-w-md space-y-4">
-        <Input
-          type="email"
-          placeholder="Enter email"
-          label="Email"
-          id="email"
-          name="email"
-          value={email}
-          onChange={handleChange}
-        />
-        <Input
-          type="password"
-          placeholder="Enter password"
-          label="Password"
-          id="password"
-          name="password"
-          value={password}
-          onChange={handleChange}
-        />
-
-        <div className="text-sm">
-          <Link to="/forget-password" className="font-medium text-indigo-600 hover:text-indigo-500">
-            Forgot your password?
-          </Link>
-        </div>
-
-        <Button type="submit" content="Login" />
-      </form>
-    </div>
+    </main>
   );
 };
 
