@@ -18,9 +18,8 @@ const addComment = async (req, res, next) => {
       throw error;
     }
 
-    try {
-      await Pharmacy.findById(pharmacy);
-    } catch (error) {
+    const exist = await Pharmacy.findById(pharmacy);
+    if (!exist) {
       error = new Error('Pharmacy not found');
       error.status = 404;
       throw error;
