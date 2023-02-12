@@ -2,6 +2,9 @@ class DataValidation {
   on;
   // Validate product
   pharmacyValidation(name = '', address = '', phone = '', location = {}) {
+    name = name.replace(/\s+/g, ' ').trim();
+    address = address.replace(/\s+/g, ' ').trim();
+    phone = phone.replace(/\s+/g, ' ').trim();
     try {
       this.validateName(name);
       this.validateAddress(address);
@@ -27,7 +30,7 @@ class DataValidation {
   // Validate address
   validateAddress(address) {
     // address regex
-    if (!address.match(/[a-zA-Z0-9]{3,30}$/)) {
+    if (!address.match(/^[#.0-9a-zA-Z\s,-]+$/)) {
       const error = new Error('address is not valid');
       throw error;
     }
@@ -38,7 +41,7 @@ class DataValidation {
   // Validate phone
   validatePhone(phone) {
     // email regex
-    if (!phone.match(/\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/)) {
+    if (!phone.match(/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/)) {
       const error = new Error('phone is not valid');
       throw error;
     }

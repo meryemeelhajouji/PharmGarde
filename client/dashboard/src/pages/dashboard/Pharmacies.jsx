@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { getPharmacies, deletePharmacy, changePharmacyStatus, addPharmacy } from '../../utils/api';
+import { Link } from 'react-router-dom';
+import { getPharmacies, deletePharmacy, changePharmacyStatus } from '../../utils/api';
 
 function PharmaciesPage() {
   const [pharmacy, setPharmacy] = useState([]);
@@ -42,9 +43,13 @@ function PharmaciesPage() {
             <div className="d-flex justify-content-start"></div>
             <div className="d-flex justify-content-between mt-3 fw-bold"></div>
             <div className="d-flex justify-content-end my-2 px-5 fw-bold">
-              <button className="btn bg-purple px-3 text-blod Button_ajoute" style={{ background: '#34d399' }}>
+              <Link
+                to="/dashboard/pharmacies/new"
+                className="btn bg-purple px-3 text-blod Button_ajoute"
+                style={{ background: '#34d399' }}
+              >
                 Ajouter
-              </button>
+              </Link>
             </div>
           </div>
           <div className="table-responsive card p-2">
