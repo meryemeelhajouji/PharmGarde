@@ -1,194 +1,60 @@
-import React from 'react';
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { getPharmacies, deletePharmacy, changePharmacyStatus, addPharmacy } from '../../utils/api';
 
 function PharmaciesPage() {
-  const [showAddModal, setshowAddModal] = useState(false);
-  const [checked, setChecked] = useState([]);
-  const [formData, setFormData] = useState({
-    name: '',
-    address: '',
-    email: '',
-    phone: '',
-    coordinates: '',
-    location: '',
-    status: '',
-  });
-  const [Pharmacy, SetPharmacy] = useState([]);
-  const handleCheck = (event) => {
-    var updatedList = [...checked];
-    if (event.target.checked) {
-      // updatedList = [...checked, event.target.value];
-    } else {
-      // updatedList.splice(checked.indexOf(event.target.value), 1);
-    }
-    setChecked(updatedList);
-  };
+  const [pharmacy, setPharmacy] = useState([]);
 
-  const URL = 'http://localhost:5000/api/pharmacy/';
-  function GetPharmacy() {
-    axios.get(URL).then((response) => {
-      SetPharmacy(response.data);
-    });
+  async function fetchPharmacy() {
+    const response = await getPharmacies();
+    setPharmacy(response);
   }
+
   useEffect(() => {
-    GetPharmacy();
+    fetchPharmacy();
   }, []);
 
-  const deletePharmacy = async (id) => {
-    const url = 'http://localhost:5000/api/pharmacy/' + id;
+  const removePharmacy = async (id) => {
     try {
-      const res = await axios.delete(url);
-      GetPharmacy().then((response) => {
-        SetPharmacy(response.data);
-      });
-    } catch (err) {
-      console.log(err.response.data);
+      const res = await deletePharmacy(id);
+      await fetchPharmacy();
+    } catch (error) {
+      console.log(error);
     }
   };
 
-  const editStatuPharmacy = async (id) => {
-    const url = 'http://localhost:5000/api/pharmacy/gard/' + id;
+  const updateGard = async (id) => {
     try {
-      const res = await axios.put(url);
-      console.log('good');
-      GetPharmacy().then((response) => {
-        SetPharmacy(response.data);
-      });
-    } catch (err) {
-      console.log(err.response.data);
+      const res = await changePharmacyStatus(id);
+      await fetchPharmacy();
+    } catch (error) {
+      console.log(error);
     }
-  };
-
-  const AddAppartemnetClick = () => {
-    setshowAddModal(!showAddModal);
   };
 
   return (
     <>
-      <main class="main">
-        <div class="Container p-4 ">
-          <div class="d-flex justify-content-between border-bottom fw-bold fs-4">
-            <p class="">Pharmacies pages</p>
+      <main className="main">
+        <div className="Container p-4 ">
+          <div className="d-flex justify-content-between border-bottom fw-bold fs-4">
+            <p className="">Pharmacies pages</p>
           </div>
-          <div class="d-flex justify-content-between">
-            <div class="d-flex justify-content-start">
-              <div class="flex items-center mb-4">
-                <input
-                  id="default-checkbox"
-                  type="checkbox"
-                  value=""
-                  class="w-4 h-4 text-blue-600 bg-gray-100 border-dark-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-dark-700 dark:border-dark-600"
-                  onChange={handleCheck}
-                />
-                <label for="default-checkbox" class="ml-2 text-sm font-medium text-gray-900 dark:text-dark-300">
-                  Pharmacie en garde
-                </label>
-              </div>
-            </div>
-            <div class="d-flex justify-content-between mt-3 fw-bold"></div>
-            <div class="d-flex justify-content-end my-2 px-5 fw-bold">
-              <button
-                class="btn bg-purple px-3 text-blod Button_ajoute"
-                onClick={AddAppartemnetClick}
-                style={{ background: '#34d399' }}
-              >
+          <div className="d-flex justify-content-between">
+            <div className="d-flex justify-content-start"></div>
+            <div className="d-flex justify-content-between mt-3 fw-bold"></div>
+            <div className="d-flex justify-content-end my-2 px-5 fw-bold">
+              <button className="btn bg-purple px-3 text-blod Button_ajoute" style={{ background: '#34d399' }}>
                 Ajouter
               </button>
-              {showAddModal && (
-                <div className="position-absolute fixed-top w-25 p-3 bg-white border border-dark mx-auto my-5 rounded-2">
-                  <form>
-                    <p className="text-center">Add New Pharmaciess</p>
-                    <div class="form-group">
-                      <label for="exampleInputEmail1">Pharmacies</label>
-                      <input
-                        type=""
-                        name=""
-                        class="form-control rounded-3"
-                        id="exampleInputEmail1"
-                        aria-describePharmacyy="emailHelp"
-                        placeholder=""
-                      />
-                    </div>
-                    <div class="form-group">
-                      <label for="exampleInputEmail1">phone</label>
-                      <input
-                        type="text"
-                        name=""
-                        class="form-control rounded-3"
-                        id="exampleInputEmail1"
-                        aria-describePharmacyy="emailHelp"
-                        placeholder=""
-                      />
-                    </div>
-
-                    <div class="form-group">
-                      <label for="exampleInputEmail1">name</label>
-                      <input
-                        type="text"
-                        name=""
-                        class="form-control rounded-3"
-                        id="exampleInputEmail1"
-                        aria-describePharmacyy="emailHelp"
-                        placeholder=""
-                      />
-                    </div>
-
-                    <div class="form-group">
-                      <label for="exampleInputEmail1">address</label>
-                      <input
-                        type="address"
-                        name=""
-                        class="form-control rounded-3"
-                        id="exampleInputEmail1"
-                        aria-describePharmacyy="emailHelp"
-                        placeholder=""
-                      />
-                    </div>
-
-                    <div class="form-group">
-                      <label for="exampleInputEmail1">coordinates</label>
-                      <input
-                        type="address"
-                        name=""
-                        class="form-control rounded-3"
-                        id="exampleInputEmail1"
-                        aria-describePharmacyy="emailHelp"
-                        placeholder=""
-                      />
-                    </div>
-
-                    <div class="form-group">
-                      <label for="exampleInputEmail1">location</label>
-                      <input
-                        type="address"
-                        name=""
-                        class="form-control rounded-3"
-                        id="exampleInputEmail1"
-                        aria-describePharmacyy="emailHelp"
-                        placeholder=""
-                      />
-                    </div>
-                    <div className="w-100 d-flex justify-content-between">
-                      <button class="btn bg-dark px-3 text-white mt-2 Button_ajoute">Add</button>
-                      <button class="btn bg-dark px-3 text-white mt-2 Button_ajoute">Cancel</button>
-                    </div>
-                    <p className="text-center text-danger"></p>
-                  </form>
-                </div>
-              )}
             </div>
           </div>
-          <div class="table-responsive card p-2">
-            <table class="table table-striped Table_responsive">
+          <div className="table-responsive card p-2">
+            <table className="table table-striped Table_responsive">
               <thead>
-                <tr class="rounded tr_table">
+                <tr className="rounded tr_table">
                   <th scope="col">name</th>
-                  <th scope="col">email</th>
                   <th scope="col">address</th>
                   <th scope="col">phone</th>
-                  <th scope="col">coordinates</th>
-                  <th scope="col">location</th>
+                  <th scope="col">region</th>
                   <th scope="col">Status</th>
                   <th scope="col">Update</th>
                   <th scope="col">Delete</th>
@@ -196,40 +62,53 @@ function PharmaciesPage() {
                 </tr>
               </thead>
               <tbody>
-                {Pharmacy.map((data) => (
-                  <tr>
+                {pharmacy.map((data) => (
+                  <tr key={data._id}>
                     <td>{data.name}</td>
-                    <td>{data.email}</td>
                     <td>{data.address}</td>
                     <td>{data.phone}</td>
-                    <td>{data.coordinates}</td>
-                    <td>{data.location}</td>
-                    <td>{data.status ? 'en garde' : 'none'}</td>
+                    <td>{data.location.region}</td>
                     <td>
-                      <button class="btn bg-white border border-dark p-1 px-2 text-dark Button_ajoute">Update</button>
+                      {data.status ? (
+                        <span className="badge bg-success">Active</span>
+                      ) : (
+                        <span className="badge bg-danger">Inactive</span>
+                      )}
+                    </td>
+                    <td>
+                      <button className="btn bg-white border border-dark p-1 px-2 text-dark Button_ajoute">
+                        Update
+                      </button>
                     </td>
                     <td>
                       <button
-                        class="btn bg-dark  p-1 px-2 text-white Button_ajoute"
-                        onClick={() => deletePharmacy(data._id)}
+                        className="btn bg-dark  p-1 px-2 text-white Button_ajoute"
+                        onClick={() => removePharmacy(data._id)}
                       >
                         Delete
                       </button>
                     </td>
                     <td>
-                      <button
-                        class="btn bg-dark  p-1 px-2 text-white Button_ajoute"
-                        onClick={() => editStatuPharmacy(data._id)}
-                      >
-                        En garde
-                      </button>
+                      <label htmlFor={`AcceptConditions-${data._id}}`} className="relative h-8 w-14 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          id={`AcceptConditions-${data._id}}`}
+                          className="peer sr-only"
+                          checked={data.status}
+                          onChange={() => updateGard(data._id)}
+                        />
+
+                        <span className="absolute inset-0 rounded-full bg-gray-300 transition peer-checked:bg-green-500"></span>
+
+                        <span className="absolute inset-0 m-1 h-6 w-6 rounded-full bg-white transition peer-checked:translate-x-6"></span>
+                      </label>
                     </td>
                     <td></td>
                   </tr>
                 ))}
               </tbody>
             </table>
-            <p className="text-center">{Pharmacy == '' ? 'No Data.' : ''}</p>
+            <p className="text-center">{pharmacy == '' ? 'No Data.' : ''}</p>
           </div>
         </div>
       </main>
