@@ -9,8 +9,6 @@ const DataValidtaion = require('../utils/dataValidation');
 const addPharmacy = async (req, res, next) => {
   try {
     const { name, address, phone, location } = req.body;
-    console.log(name);
-    console.log(name.match(/[a-zA-Z0-9]{3,}$/));
 
     const dataValidation = new DataValidtaion();
     dataValidation.pharmacyValidation(name, address, phone, location);

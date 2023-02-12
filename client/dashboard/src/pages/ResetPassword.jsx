@@ -1,21 +1,22 @@
 import { useState } from 'react';
-import Button from '../components/Button';
 import Input from '../components/Input';
-import { login } from '../utils/api';
-import { Link, useNavigate } from 'react-router-dom';
+import Button from '../components/Button';
+import { resetPassword } from '../utils/api';
+import { useParams, useNavigate } from 'react-router-dom';
 
-const Login = () => {
-  const [email, setEmail] = useState('');
+const ResetPassword = () => {
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const { token } = useParams();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (name === 'email') {
-      setEmail(value);
-    } else if (name === 'password') {
+    if (name === 'password') {
       setPassword(value);
+    } else if (name === 'confirmPassword') {
+      setConfirmPassword(value);
     }
 
     setError('');
@@ -23,11 +24,16 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (password !== confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+
     try {
-      const response = await login(email, password);
-      navigate('/dashboard');
-    } catch (err) {
-      setError(err.response.data.message);
+      const response = await resetPassword(token, password);
+      navigate('/login');
+    } catch (error) {
+      setError(error.response?.data?.message);
     }
   };
 
@@ -36,7 +42,7 @@ const Login = () => {
       <div className="max-w-sm w-full text-gray-600">
         <div className="text-center">
           <div className="mt-5 space-y-2">
-            <h3 className="text-gray-800 text-2xl font-bold sm:text-3xl">Log in to your account</h3>
+            <h3 className="text-gray-800 text-2xl font-bold sm:text-3xl">Reset your password</h3>
           </div>
         </div>
         {error && (
@@ -49,15 +55,6 @@ const Login = () => {
         )}
         <form onSubmit={handleSubmit} className="mt-8 space-y-5">
           <Input
-            id="email"
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={handleChange}
-            name="email"
-            label="Email"
-          />
-          <Input
             id="password"
             type="password"
             placeholder="Password"
@@ -66,16 +63,20 @@ const Login = () => {
             name="password"
             label="Password"
           />
-          <Button type="submit" content="Log in" />
-          <div className="text-center">
-            <Link to="forget-password" className="hover:text-indigo-600">
-              Forgot password?
-            </Link>
-          </div>
+          <Input
+            id="confirmPassword"
+            type="password"
+            placeholder="Confirm Password"
+            value={confirmPassword}
+            onChange={handleChange}
+            name="confirmPassword"
+            label="Confirm Password"
+          />
+          <Button type="submit" content="Reset Password" />
         </form>
       </div>
     </main>
   );
 };
 
-export default Login;
+export default ResetPassword;
