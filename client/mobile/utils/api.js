@@ -10,3 +10,8 @@ export const getAllPharmacies = async () => {
   const response = await axios.get('/pharmacy');
   return response.data;
 };
+
+export const getGardingPharmacies = async () => {
+  const response = await axios.get('/pharmacy/gard/active');
+  return response.data;
+};

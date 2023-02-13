@@ -3,6 +3,8 @@ import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useEffect, useState } from 'react';
+import { getGardingPharmacies } from '../utils/api';
+import PharmacyMarker from '../component/PharmacyMarker';
 
 const Map = () => {
   const [myRegion, setMyRegion] = useState({
@@ -11,6 +13,7 @@ const Map = () => {
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   });
+  const [pharmacies, setPharmacies] = useState([]);
   const [error, setError] = useState(null);
 
   const getLocation = async () => {
@@ -33,10 +36,31 @@ const Map = () => {
     getLocation();
   }, []);
 
+  useEffect(() => {
+    const getPharmacies = async () => {
+      const pharmacies = await getGardingPharmacies();
+      setPharmacies(pharmacies.data);
+    };
+    getPharmacies();
+  }, []);
+
   return (
     <View style={styles.container}>
       <MapView style={styles.map} region={myRegion} provider="google">
         <Marker coordinate={myRegion} title="My Location" description="This is my location" />
+        {pharmacies.map((pharmacy) => (
+          <Marker
+            key={pharmacy._id}
+            coordinate={{
+              latitude: pharmacy.location.coordinates[1],
+              longitude: pharmacy.location.coordinates[0],
+            }}
+            title={pharmacy.name}
+            description={pharmacy.address}
+          >
+            <PharmacyMarker />
+          </Marker>
+        ))}
       </MapView>
 
       <Pressable
