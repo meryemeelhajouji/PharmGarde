@@ -4,7 +4,6 @@ import { Avatar, Button, Card, Text } from 'react-native-paper';
 
 const LeftContent = (props) => <Avatar.Image size={70} style={{}} source={require('../assets/download.png')} />;
 
-
 const CardPharmacy = (props) => {
   // const { name, naaddresse, phone } = data;
   return (
@@ -21,10 +20,10 @@ const CardPharmacy = (props) => {
         <Text style={{ marginLeft: 120 }}>{props.data.phone} </Text>
 
         <Card.Actions>
-          {/* <Avatar.Icon size={24} icon="plus" style={{backgroundColor:"green"}}/> */}
-          {/* <Button icon="plus" mode="outlined " textColor="green" onPress={() => console.log('Pressed')}> */}
-
-          {/* </Button> */}
+          {/* <Avatar.Icon size={24} icon="heart" style={{ backgroundColor: 'green' }} /> */}
+          <Button icon="plus" mode="outlined " textColor="green" onPress={() => console.log('Pressed')}>
+            Add to favorite
+          </Button>
         </Card.Actions>
       </Card>
     </View>
