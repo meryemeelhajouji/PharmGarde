@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { getGardingPharmacies } from '../utils/api';
 import PharmacyMarker from '../component/PharmacyMarker';
 import Comment from '../component/Comment';
-import { getPharmacyComments } from '../utils/api';
+import { getPharmacyComments, addPharmacyComment } from '../utils/api';
 
 const Map = () => {
   const [myRegion, setMyRegion] = useState({
@@ -18,6 +18,7 @@ const Map = () => {
   const [pharmacies, setPharmacies] = useState([]);
   const [selectedPharmacy, setSelectedPharmacy] = useState(null);
   const [comments, setComments] = useState([]);
+  const [commentText, setCommentText] = useState('');
   const [error, setError] = useState(null);
 
   const getLocation = async () => {
@@ -38,18 +39,29 @@ const Map = () => {
 
   const getPharmaciesComments = async (id) => {
     const comments = await getPharmacyComments(id);
+    console.log(comments.data);
     setComments(comments.data);
+  };
+
+  const addComment = async (id) => {
+    const comment = await addPharmacyComment(id, commentText);
+    await getPharmaciesComments(id);
   };
 
   useEffect(() => {
     getLocation();
   }, []);
 
-  useEffect(() => {
-    const getPharmacies = async () => {
+  const getPharmacies = async () => {
+    try {
       const pharmacies = await getGardingPharmacies();
       setPharmacies(pharmacies.data);
-    };
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
     getPharmacies();
   }, []);
 
@@ -136,6 +148,8 @@ const Map = () => {
                 paddingHorizontal: 10,
               }}
               placeholder="Add a comment"
+              value={commentText}
+              onChangeText={(text) => setCommentText(text)}
             />
             <Pressable
               style={{
@@ -144,7 +158,9 @@ const Map = () => {
                 borderRadius: 50,
                 marginLeft: 10,
               }}
-              onPress={() => {}}
+              onPress={() => {
+                addComment(selectedPharmacy?._id);
+              }}
             >
               <MaterialIcons name="send" size={24} color="black" />
             </Pressable>
@@ -154,7 +170,7 @@ const Map = () => {
           {comments.length == 0 ? (
             <Text style={{ opacity: 0.5 }}>No comments yet</Text>
           ) : (
-            comments.map((comment) => <Comment key={comment._id} comment={comment} />)
+            comments.map((comment) => <Comment key={comment._id} comment={comment.comment} />)
           )}
 
           <Pressable
