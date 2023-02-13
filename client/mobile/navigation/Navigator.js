@@ -1,5 +1,4 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Home from '../screens/Home';
 import Map from '../screens/Map';
 import Pharmacie from '../screens/Pharmacie';
 import Favorie from '../screens/Favorie';
@@ -11,13 +10,6 @@ const Navigator = () => {
   return (
     <Tab.Navigator>
       <Tab.Screen
-        name="Home"
-        component={Home}
-        options={{
-          tabBarIcon: ({ color, size }) => <Feather name="home" size={size} color={color} />,
-        }}
-      />
-      <Tab.Screen
         name="map"
         component={Map}
         options={{
@@ -25,7 +17,7 @@ const Navigator = () => {
         }}
       />
       <Tab.Screen
-        name="pharmacie"
+        name="pharmacies"
         component={Pharmacie}
         options={{
           tabBarIcon: ({ color, size }) => <MaterialIcons name="local-pharmacy" color={color} size={size} />,
