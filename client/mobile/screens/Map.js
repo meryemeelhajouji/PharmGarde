@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { getGardingPharmacies } from '../utils/api';
 import PharmacyMarker from '../component/PharmacyMarker';
 import Comment from '../component/Comment';
+import { getPharmacyComments } from '../utils/api';
 
 const Map = () => {
   const [myRegion, setMyRegion] = useState({
@@ -35,6 +36,11 @@ const Map = () => {
     });
   };
 
+  const getPharmaciesComments = async (id) => {
+    const comments = await getPharmacyComments(id);
+    setComments(comments.data);
+  };
+
   useEffect(() => {
     getLocation();
   }, []);
@@ -60,6 +66,7 @@ const Map = () => {
             }}
             onPress={() => {
               setSelectedPharmacy(pharmacy);
+              getPharmaciesComments(pharmacy._id);
             }}
           >
             <PharmacyMarker />
